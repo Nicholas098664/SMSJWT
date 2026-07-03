@@ -1,0 +1,282 @@
+
+
+/* =========================
+   FORCE REGISTER LAYOUT FIX
+========================= */
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Make inputs behave properly */
+.container input{
+    width: 100%;
+    display: block;
+}
+
+/* Fix weird stretching issues */
+.container button{
+    width: 100%;
+    display: block;
+}
+
+/* Prevent any flex leakage */
+.password-box{
+    width: 100%;
+    display: block;
+}
+
+
+
+
+
+
+
+/* =========================
+   GLOBAL
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    /* background: linear-gradient(135deg, #2563eb, #60a5fa); */
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    text-align: center;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform: translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   INPUT FIELDS
+========================= */
+
+.container input{
+    width:100%;
+    padding:12px 15px;
+    margin:10px 0;
+    border:1px solid #ddd;
+    border-radius:8px;
+    outline:none;
+    transition:0.3s;
+    font-size:14px;
+}
+
+.container input:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 5px rgba(37,99,235,0.3);
+}
+
+/* =========================
+   PASSWORD BOX
+========================= */
+
+.password-box{
+    position: relative;
+}
+
+.toggle-eye{
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    font-size:18px;
+    color:#666;
+    transition:0.3s;
+}
+
+.toggle-eye:hover{
+    color:#2563eb;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:none;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#1d4ed8;
+    transform: translateY(-2px);
+}
+
+/* =========================
+   TEXT / LINKS
+========================= */
+
+p{
+    margin-top:15px;
+    font-size:14px;
+    color:#555;
+}
+
+p a{
+    color:#2563eb;
+    text-decoration:none;
+    font-weight:600;
+}
+
+p a:hover{
+    text-decoration:underline;
+}
+
+/* =========================
+   ERROR / MESSAGE
+========================= */
+
+#RDE{
+    color:red;
+    font-size:13px;
+    margin-top:10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 18px;
+    border-radius: 6px;
+    color: white;
+    display: none;
+    z-index: 9999;
+    font-size: 14px;
+}
+
+.toast.success {
+    background: #16a34a;
+}
+
+.toast.error {
+    background: #dc2626;
+}
+
+
+
+
+.loader-container{
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(255,255,255,.7);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    z-index:9999;
+}
+
+.spinner{
+    width:60px;
+    height:60px;
+
+    border:8px solid #ddd;
+    border-top:8px solid #4CAF50;
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+
+
+
+
+.password-box{
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+}
+
+.password-box input{
+    width: 100%;
+    padding-right: 45px;
+}
+
+.toggle-eye{
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    user-select: none;
+    color: #666;
+    transition: 0.2s;
+}
+
+.toggle-eye:hover{
+    color: #2563eb;
+}

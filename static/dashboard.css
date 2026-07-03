@@ -1,0 +1,165 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+}
+
+/* LAYOUT */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    background: #1f2937;
+    color: white;
+    padding: 20px;
+}
+
+.sidebar .logo {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.menu {
+    list-style: none;
+}
+
+.menu li {
+    padding: 12px;
+    margin: 8px 0;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.menu li:hover,
+.menu li.active {
+    background: #374151;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* TOP BAR */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.top-buttons button {
+    padding: 8px 12px;
+    margin-left: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    background: #2563eb;
+    color: white;
+}
+
+.top-buttons button:hover {
+    background: #1d4ed8;
+}
+
+/* STATS CARDS */
+.stats {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.card {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+/* SEARCH */
+.search-section {
+    margin-bottom: 15px;
+}
+
+.search-section input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/* FORM */
+.student-form {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.student-form input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.form-buttons {
+    margin-top: 10px;
+}
+
+.form-buttons button {
+    padding: 8px 12px;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+#submitBtn {
+    background: #16a34a;
+    color: white;
+}
+
+#updateBtn {
+    background: #f59e0b;
+    color: white;
+}
+
+/* TABLE */
+.table-section table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-section th {
+    background: #111827;
+    color: white;
+    padding: 12px;
+}
+
+.table-section td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.table-section tr:hover {
+    background: #f3f4f6;
+}
+

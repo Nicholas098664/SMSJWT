@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Management System</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='land.css') }}">
+
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav>
+
+        <h2>
+            <i class="fas fa-user-graduate"></i>
+            StudentMS
+        </h2>
+
+        <div>
+
+            <a href="#">Home</a>
+
+            <a href="#features">Features</a>
+
+            <a href="#statistics">Statistics</a>
+
+            <a href="#about">About</a>
+
+            <a href="#contact">Contact</a>
+
+            <a href="/login">Login</a>
+
+            <a href="/register" class="register-btn">
+                Register
+            </a>
+
+        </div>
+
+    </nav>
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <h1>
+                Student Management System
+            </h1>
+
+            <p>
+
+                A modern web application built with Flask,
+                JavaScript, SQLite and JWT Authentication to
+                manage student records efficiently and securely.
+
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="/register" class="btn">
+                    Get Started
+                </a>
+
+                <a href="/login" class="btn secondary-btn">
+                    Login
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="hero-image">
+
+            <i class="fas fa-laptop-code hero-icon"></i>
+
+        </div>
+
+    </section>
+
+    <!-- ================= STATISTICS ================= -->
+
+    <section id="statistics">
+
+        <div class="stat-box">
+
+            <h2>500+</h2>
+
+            <p>Students Managed</p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <h2>100%</h2>
+
+            <p>Secure Authentication</p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <h2>24/7</h2>
+
+            <p>Available</p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <h2>Fast</h2>
+
+            <p>CRUD Operations</p>
+
+        </div>
+
+    </section>
+
+    <!-- ================= FEATURES ================= -->
+
+    <section id="features">
+
+        <h2>Why Choose StudentMS?</h2>
+
+        <div class="cards">
+
+            <div class="card">
+
+                <i class="fas fa-shield-halved"></i>
+
+                <h3>Secure Login</h3>
+
+                <p>
+                    JWT Authentication keeps every account protected.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <i class="fas fa-user-graduate"></i>
+
+                <h3>Student Management</h3>
+
+                <p>
+                    Add, edit, search and delete students easily.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <i class="fas fa-magnifying-glass"></i>
+
+                <h3>Smart Search</h3>
+
+                <p>
+                    Instantly locate students using the search feature.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <i class="fas fa-bolt"></i>
+
+                <h3>Fast Experience</h3>
+
+                <p>
+                    Loading spinner and toast notifications improve usability.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <i class="fas fa-chart-column"></i>
+
+                <h3>Dashboard</h3>
+
+                <p>
+                    View all student records in one organized dashboard.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <i class="fas fa-mobile-screen-button"></i>
+
+                <h3>Responsive</h3>
+
+                <p>
+                    Works beautifully on desktop, tablet and mobile devices.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= ABOUT ================= -->
+
+    <section id="about">
+
+        <h2>Built With</h2>
+
+        <p>
+
+            This project demonstrates a complete Full Stack
+            Student Management System using modern web
+            technologies.
+
+        </p>
+
+        <div class="tech">
+
+            <span>Python</span>
+
+            <span>Flask</span>
+
+            <span>JavaScript</span>
+
+            <span>SQLite</span>
+
+            <span>JWT</span>
+
+            <span>HTML5</span>
+
+            <span>CSS3</span>
+
+        </div>
+
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+
+    <section id="contact">
+
+        <h2>Ready to Get Started?</h2>
+
+        <p>
+
+            Create an account today and experience an easier
+            way to manage student information.
+
+        </p>
+
+        <a href="/register" class="btn">
+            Register Now
+        </a>
+
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+
+            © 2026 Student Management System
+
+        </p>
+
+        <p>
+
+            Developed by Nicholas
+
+        </p>
+
+    </footer>
+
+</body>
+
+</html>
