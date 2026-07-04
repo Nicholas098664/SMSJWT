@@ -1,19 +1,26 @@
-from flask import Flask, Blueprint
-from flask_cors import  CORS
-from database import users,students,init_audit_table
+from flask import Flask, render_template
+from flask_cors import CORS
+
 from routes.auth_route import auth_Tp
 from routes.student_route import student_Tp
-from flask import render_template
-from flask_mail import Mail
+
+from database import users, students, init_audit_table
 
 app = Flask(__name__)
 CORS(app)
 
-
+# =========================
+# BLUEPRINTS
+# =========================
 app.register_blueprint(student_Tp)
 app.register_blueprint(auth_Tp)
 
-
+# =========================
+# ROUTES
+# =========================
+@app.route("/")
+def landing():
+    return render_template("landing.html")
 
 @app.route("/register")
 def register_page():
@@ -21,55 +28,39 @@ def register_page():
 
 @app.route("/login")
 def login_page():
-    return render_template("login.html")   
+    return render_template("login.html")
 
 @app.route("/dashboard")
 def dashboard():
     return render_template("dashboard.html")
 
-
-@app.route("/")
-def landing():
-    return render_template("Landing.html")
+@app.route("/forgot-password")
+def forgot_password_page():
+    return render_template("forgotpassword.html")
 
 @app.route("/reset-password/<token>")
 def reset_page(token):
-    return render_template(
-        "ResetPassword.html",
-        token=token
-    )
-
-@app.route("/forgot-password")
-def forgot_password_page():
-    return render_template("ForgotPassword.html")
-
-
-
-
+    return render_template("Resetpassword.html", token=token)
 
 @app.route("/audit")
 def audit():
     return render_template("audit.html")
 
 
-
-
-
-
-
-
-app.config["MAIL_SERVER"] = "smtp.gmail.com"
-app.config["MAIL_PORT"] = 587
-app.config["MAIL_USE_TLS"] = True
-app.config["MAIL_USERNAME"] = "richardsontommy0456@gmail.com"
-app.config["MAIL_PASSWORD"] = "your_16_character_app_password"
-app.config["MAIL_DEFAULT_SENDER"] = "richardsontommy0456@gmail.com"
-
-mail = Mail(app)
-
-
-if __name__ == ("__main__"):
+# =========================
+# SAFE DB INIT (RUN ON IMPORT)
+# =========================
+try:
     users()
     students()
     init_audit_table()
-    app.run(host="0.0.0.0", port=5000)
+    print("✅ DB initialized")
+except Exception as e:
+    print("❌ DB Error:", e)
+
+
+# =========================
+# MAIN (LOCAL ONLY)
+# =========================
+if __name__ == "__main__":
+    app.run(debug=True)
