@@ -32,13 +32,20 @@ def dashboard():
 def landing():
     return render_template("Landing.html")
 
-
 @app.route("/reset-password/<token>")
 def reset_page(token):
-
     return render_template(
-        "ResetPassword.html"
+        "ResetPassword.html",
+        token=token
     )
+
+@app.route("/forgot-password")
+def forgot_password_page():
+    return render_template("ForgotPassword.html")
+
+
+
+
 
 @app.route("/audit")
 def audit():

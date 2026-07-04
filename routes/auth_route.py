@@ -106,35 +106,30 @@ def make_admin(user_id):
 def forgot_password():
 
     data = request.get_json()
-
-    if not data:
-        return jsonify({"message": "Invalid JSON data"}), 400
-
     email = data.get("email")
 
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    cursor.execute(
-        "SELECT * FROM users WHERE email = ?",
-        (email,)
-    )
-
+    cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
     user = cursor.fetchone()
     conn.close()
 
     if not user:
-        return jsonify({
-            "message": "Email does not exist."
-        }), 404
+        return jsonify({"message": "Email does not exist"}), 404
 
-    
-    send_reset_email(email)
+    # 🔥 Generate token
+    token = generate_reset_token(email)
+
+    # 🔥 Create reset link
+    reset_link = url_for("reset_page", token=token, _external=True)
+
+    # 🔥 TEMP: Print instead of sending email
+    print("RESET LINK:", reset_link)
 
     return jsonify({
-        "message": "Password reset email sent successfully."
+        "message": "Reset link generated (check server console)"
     }), 200
-
 
 @auth_Tp.route("/reset-password/<token>", methods=["POST"])
 def reset_password(token):
