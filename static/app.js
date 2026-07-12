@@ -22,7 +22,7 @@ window.register = async function () {
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
 
-        const res = await fetch("http://127.0.0.1:5000/signup", {
+        const res = await fetch("/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
