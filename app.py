@@ -57,10 +57,15 @@ try:
     print("✅ DB initialized")
 except Exception as e:
     print("❌ DB Error:", e)
-
-
+    raise e
 # =========================
 # MAIN (LOCAL ONLY)
 # =========================
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+
+
+
+      
