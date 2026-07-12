@@ -2,14 +2,36 @@ from database import get_db_connection
 
 
 def addstudent(data):
-    conn =get_db_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
 
+    # Get the last student_id
     cursor.execute("""
-    INSERT INTO students ( name, age,grade)
-    VALUES (?,?,?)
-    
-    """, (data["name"],data["age"],data["grade"]))
+        SELECT student_id 
+        FROM students
+        ORDER BY id DESC
+        LIMIT 1
+    """)
+
+    last_student = cursor.fetchone()
+
+    if last_student:
+        last_id = last_student[0]
+        number = int(last_id.replace("STU", ""))
+        new_student_id = f"STU{number + 1:03d}"
+    else:
+        new_student_id = "STU001"
+
+
+    cursor.execute("""
+        INSERT INTO students (student_id, name, age, grade)
+        VALUES (%s, %s, %s, %s)
+    """, (
+        new_student_id,
+        data["name"],
+        data["age"],
+        data["grade"]
+    ))
 
     conn.commit()
     conn.close()
@@ -34,7 +56,7 @@ def getstudent(student_id):
     cursor = conn.cursor()
 
     cursor.execute(
-    "SELECT * FROM students WHERE student_id = ?",
+    "SELECT * FROM students WHERE student_id = %s",
     (student_id,)
     )
     row = cursor.fetchone()
@@ -48,7 +70,7 @@ def delete(student_id):
     cursor = conn.cursor()
 
     cursor.execute(
-        "DELETE FROM students WHERE student_id = ?",
+        "DELETE FROM students WHERE student_id = %s",
         (student_id,)
     )
 
@@ -67,8 +89,8 @@ def update(student_id, data):
 
     cursor.execute("""
         UPDATE students
-        SET name = ?, age = ?, grade = ?
-        WHERE student_id = ?
+        SET name = %s, age = %s, grade = %s
+        WHERE student_id = %s
     """, (data["name"], data["age"], data["grade"], student_id))
 
     conn.commit()
@@ -83,7 +105,7 @@ def getbyname(name):
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    cursor.execute("SELECT * FROM students WHERE name = ?", (name,))
+    cursor.execute("SELECT * FROM students WHERE name = %s", (name,))
         
         
     student = cursor.fetchone()
@@ -96,9 +118,10 @@ def counter():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT COUNT(*) FROM students")
+    cursor.execute("SELECT COUNT(*) AS total FROM students")
+
     result = cursor.fetchone()
 
     conn.close()
 
-    return result[0] if result else 0
+    return result["total"] if result else 0

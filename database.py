@@ -1,8 +1,16 @@
-import sqlite3
+import psycopg
+from psycopg.rows import dict_row
 
 def get_db_connection():
-    conn = sqlite3.connect('easy.db')
-    conn.row_factory = sqlite3.Row
+    conn = psycopg.connect(
+        host="localhost",
+        dbname="sms_db",
+        user="postgres",
+        password="123456",
+        port=5432,
+        row_factory=dict_row
+    )
+
     return conn
 
 def users():
@@ -11,7 +19,7 @@ def users():
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         role TEXT NOT NULL,
         username TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
@@ -33,7 +41,7 @@ def students():
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS students(
-    student_id  INTEGER PRIMARY KEY AUTOINCREMENT ,
+    student_id SERIAL PRIMARY KEY,
     name  TEXT NOT NULL,
     age INTEGER NOT NULL,
     grade TEXT NOT NULL
@@ -51,7 +59,7 @@ def init_audit_table():
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS audit_logs (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY ,
         user_id INTEGER,
         action TEXT NOT NULL,
         timestamp TEXT DEFAULT CURRENT_TIMESTAMP
@@ -70,8 +78,20 @@ def log_action(user_id, action):
 
     cursor.execute("""
         INSERT INTO audit_logs (user_id, action)
-        VALUES (?, ?)
+        VALUES (%s, %s)
     """, (user_id, action))
 
     conn.commit()
     conn.close()    
+
+
+
+
+
+
+if __name__ == "__main__":
+    users()
+    students()
+    init_audit_table()
+
+    print("Tables created successfully!")

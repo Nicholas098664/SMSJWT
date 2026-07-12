@@ -20,7 +20,7 @@ def students(payload):
 
         return jsonify({"message": "student added"})
 
-@student_Tp.route("/getstudent/<int:student_id>", methods = ["GET"]) 
+@student_Tp.route("/getstudent/<student_id>", methods = ["GET"]) 
 @token_required   
 def get_student_route(student_id, payload):
     student = getstudent(student_id)
@@ -31,7 +31,7 @@ def get_student_route(student_id, payload):
         "message": "student not found"
     }), 404
 
-@student_Tp.route("/update/<int:student_id>", methods = ["PUT"])
+@student_Tp.route("/update/<student_id>", methods = ["PUT"])
 @token_required
 @admin_required
 def update_student_route(student_id, payload):
@@ -59,7 +59,7 @@ def update_student_route(student_id, payload):
             "success": False,
             "message": " fail to update student "
         })
-@student_Tp.route("/delete/<int:student_id>", methods=["DELETE"])
+@student_Tp.route("/delete/<student_id>", methods=["DELETE"])
 @token_required
 @admin_required
 def delete_student_route(student_id, payload):
@@ -119,16 +119,15 @@ def getbyname_route():
         return jsonify (student)
     return jsonify({"message":"no student found"})    
 
-
 @student_Tp.route("/counter", methods=["GET"])
 @token_required
-def counter_route(payload):   # MUST include payload
+def counter_route(payload):
     try:
         count = counter()
 
         return jsonify({
             "success": True,
-            "count": count
+            "totalStudent": count
         })
 
     except Exception as e:

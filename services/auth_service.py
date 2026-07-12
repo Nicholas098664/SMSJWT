@@ -5,6 +5,8 @@ import datetime
 from config import SECRET_KEY
 
 
+print("AUTH SERVICE LOADED")
+
 def signup(data):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -18,7 +20,7 @@ def signup(data):
 
     # Check if email already exists
     cursor.execute(
-        "SELECT * FROM users WHERE email = ?",
+        "SELECT * FROM users WHERE email = %s",
         (email,)
     )
 
@@ -36,11 +38,13 @@ def signup(data):
     # Save the role in the database
     cursor.execute("""
         INSERT INTO users (username, email, password, role)
-        VALUES (?, ?, ?, ?)
+        VALUES (%s, %s, %s, %s)
     """, (username, email, hashed_password, role))
 
     conn.commit()
     conn.close()
+
+    print("POSTGRES SIGNUP FUNCTION RUNNING")
 
     return {
         "success": True,
@@ -57,7 +61,7 @@ def login(data):
 
     cursor.execute("""
         SELECT * FROM users
-        WHERE email = ?
+        WHERE email = %s
     """, (email,))
 
     user = cursor.fetchone()
@@ -96,8 +100,8 @@ def login(data):
 
             cursor.execute("""
                 UPDATE users
-                SET failed_attempts = ?, locked_until = ?
-                WHERE id = ?
+                SET failed_attempts = %s, locked_until = %s
+                WHERE id = %s
             """, (attempts, locked_until, user["id"]))
 
             conn.commit()
@@ -113,8 +117,8 @@ def login(data):
         # Update failed attempts
         cursor.execute("""
             UPDATE users
-            SET failed_attempts = ?
-            WHERE id = ?
+            SET failed_attempts = %s
+            WHERE id = %s
         """, (attempts, user["id"]))
 
         conn.commit()
@@ -130,7 +134,7 @@ def login(data):
         UPDATE users
         SET failed_attempts = 0,
             locked_until = NULL
-        WHERE id = ?
+        WHERE id = %s
     """, (user["id"],))
 
     conn.commit()
@@ -162,14 +166,3 @@ def login(data):
 
 
 
-def log_action(user_id, action):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        INSERT INTO audit_logs (user_id, action)
-        VALUES (?, ?)
-    """, (user_id, action))
-
-    conn.commit()
-    conn.close()

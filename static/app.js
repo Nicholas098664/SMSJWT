@@ -139,11 +139,14 @@ window.submitStudent = async function () {
 
         const data = await res.json();
 
+        
+
+
         showToast(
             data.message,
             data.success ? "success" : "error"
         );
-
+        console.log("Toast function executed");
         if (data.success) {
 
             hideAddStudent();
@@ -169,9 +172,9 @@ window.submitStudent = async function () {
 
 };
 
-// =====================
+
 // SHOW / HIDE FORM
-// =====================
+
 
 window.showAddStudent = function () {
 
@@ -214,7 +217,7 @@ window.loadStudents = async function () {
 
         table.innerHTML = "";
 
-        document.getElementById("totalStudents").innerText = data.length;
+        
 
         if (!data || data.length === 0) {
 
@@ -241,11 +244,11 @@ window.loadStudents = async function () {
 
                     <td>
 
-                        <button onclick="editStudent(${student.student_id})">
+                        <button onclick="editStudent('${student.student_id}')">
                             Edit
                         </button>
 
-                        <button onclick="deleteStudent(${student.student_id})">
+                        <button onclick="deleteStudent('${student.student_id}')">
                             Delete
                         </button>
 
@@ -563,34 +566,32 @@ window.searchStudents = function () {
 
 
 window.loadCounter = async function () {
-
     try {
+        const token = localStorage.getItem("token");
 
-        const token =
-            localStorage.getItem("token");
-
-        const res = await fetch(
-            "http://127.0.0.1:5000/counter",
-            {
-                headers: {
-                    "Authorization": token
-                }
+        const res = await fetch("http://127.0.0.1:5000/counter", {
+            headers: {
+                "Authorization": token
             }
-        );
+        });
+
+        
 
         const data = await res.json();
+        console.log("Counter API:", data);
 
         document.getElementById("totalStudents").innerText =
-            data.count;
+            data.totalStudent;
+
+        console.log(
+            "After setting:",
+             document.getElementById("totalStudents").innerText
+        );    
 
     } catch (err) {
-
         console.error(err);
-
     }
-
 };
-
 
 
 window.onload = function () {

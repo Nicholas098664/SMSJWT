@@ -1,12 +1,12 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request,url_for
 from services.auth_service import signup, login
 from auth.token_required import token_required
 from admin_required import admin_required
 from database import get_db_connection
 from werkzeug.security import generate_password_hash
-import sqlite3
 
-from email_utils import send_reset_email, verify_reset_token
+from email_utils import send_reset_email, verify_reset_token,generate_reset_token
+
 
 auth_Tp = Blueprint("auth", __name__)
 
@@ -80,7 +80,7 @@ def make_admin(user_id):
     cursor = conn.cursor()
 
     cursor.execute(
-        "UPDATE users SET role = ? WHERE id = ?",
+        "UPDATE users SET role = %s WHERE id = %s",
         ("admin", user_id)
     )
 
@@ -111,20 +111,20 @@ def forgot_password():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
+    cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
     user = cursor.fetchone()
     conn.close()
 
     if not user:
         return jsonify({"message": "Email does not exist"}), 404
 
-    # 🔥 Generate token
+    
     token = generate_reset_token(email)
 
-    # 🔥 Create reset link
+    
     reset_link = url_for("reset_page", token=token, _external=True)
 
-    # 🔥 TEMP: Print instead of sending email
+    
     print("RESET LINK:", reset_link)
 
     return jsonify({
@@ -168,7 +168,7 @@ def reset_password(token):
     cursor = conn.cursor()
 
     # 6. Check if user exists
-    cursor.execute("SELECT id FROM users WHERE email = ?", (email,))
+    cursor.execute("SELECT id FROM users WHERE email = %s", (email,))
     user = cursor.fetchone()
 
     if not user:
@@ -181,8 +181,8 @@ def reset_password(token):
     # 7. Update password
     cursor.execute("""
         UPDATE users
-        SET password = ?
-        WHERE email = ?
+        SET password = %s
+        WHERE email = %s
     """, (hashed_password, email))
 
     conn.commit()
@@ -200,7 +200,6 @@ def reset_password(token):
 def audit_logs(payload):
     
     conn = get_db_connection()
-    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM audit_logs ORDER BY id DESC")
