@@ -1,15 +1,27 @@
+import os
+print("DATABASE_URL FOUND:", os.environ.get("DATABASE_URL") is not None)
 import psycopg
 from psycopg.rows import dict_row
 
+
 def get_db_connection():
-    conn = psycopg.connect(
-        host="localhost",
-        dbname="sms_db",
-        user="postgres",
-        password="123456",
-        port=5432,
-        row_factory=dict_row
-    )
+
+    database_url = os.environ.get("DATABASE_URL")
+
+    if database_url:
+        conn = psycopg.connect(
+            database_url,
+            row_factory=dict_row
+        )
+    else:
+        conn = psycopg.connect(
+            host="localhost",
+            dbname="sms_db",
+            user="postgres",
+            password="123456",
+            port=5432,
+            row_factory=dict_row
+        )
 
     return conn
 
