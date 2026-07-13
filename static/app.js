@@ -120,7 +120,7 @@ window.submitStudent = async function () {
         const age = document.getElementById("studentAge").value;
         const grade = document.getElementById("studentGrade").value.trim();
 
-        const res = await fetch("http://127.0.0.1:5000/addstudent", {
+        const res = await fetch("/addstudent", {
 
             method: "POST",
 
@@ -200,7 +200,7 @@ window.loadStudents = async function () {
 
         const token = localStorage.getItem("token");
 
-        const res = await fetch("http://127.0.0.1:5000/Allstudents", {
+        const res = await fetch("/Allstudents", {
 
             method: "GET",
 
@@ -292,7 +292,7 @@ window.deleteStudent = async function(student_id){
 
         const res = await fetch(
 
-            `http://127.0.0.1:5000/delete/${student_id}`,
+            `/delete/${student_id}`,
 
             {
 
@@ -372,7 +372,7 @@ window.editStudent = async function(student_id){
 
         const res = await fetch(
 
-            `http://127.0.0.1:5000/getstudent/${student_id}`,
+            `/getstudent/${student_id}`,
 
             {
 
@@ -460,7 +460,7 @@ window.updateStudent = async function () {
         const grade = document.getElementById("studentGrade").value.trim();
 
         const res = await fetch(
-            `http://127.0.0.1:5000/update/${currentStudentId}`,
+            `/update/${currentStudentId}`,
             {
                 method: "PUT",
 
@@ -569,7 +569,7 @@ window.loadCounter = async function () {
     try {
         const token = localStorage.getItem("token");
 
-        const res = await fetch("http://127.0.0.1:5000/counter", {
+        const res = await fetch("/counter", {
             headers: {
                 "Authorization": token
             }
