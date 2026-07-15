@@ -6,12 +6,12 @@ def addstudent(data):
     cursor = conn.cursor()
 
     # Get the last student_id
-    cursor.execute("""
-        SELECT student_id 
-        FROM students
-        ORDER BY id DESC
-        LIMIT 1
-    """)
+    cursor.executecursor.execute("""
+    SELECT student_id
+    FROM students
+    ORDER BY CAST(SUBSTRING(student_id FROM 4) AS INTEGER) DESC
+    LIMIT 1
+""")
 
     last_student = cursor.fetchone()
 
@@ -34,6 +34,7 @@ def addstudent(data):
     ))
 
     conn.commit()
+    cursor.close()
     conn.close()
 
     return True
@@ -125,3 +126,6 @@ def counter():
     conn.close()
 
     return result["total"] if result else 0
+
+
+
