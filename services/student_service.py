@@ -6,7 +6,7 @@ def addstudent(data):
     cursor = conn.cursor()
 
     # Get the last student_id
-    cursor.executecursor.execute("""
+    cursor.execute("""
     SELECT student_id
     FROM students
     ORDER BY CAST(SUBSTRING(student_id FROM 4) AS INTEGER) DESC
