@@ -135,3 +135,18 @@ def counter_route(payload):
             "success": False,
             "message": str(e)
         }), 500
+
+
+
+@auth_Tp.route("/user-counter", methods=["GET"])
+@token_required
+def user_counter_route(payload):
+
+    count = user_counter()
+
+    return jsonify({
+        "success": True,
+        "totalUsers": count
+    })
+
+
