@@ -61,14 +61,16 @@ def getstudent(student_id):
     cursor = conn.cursor()
 
     cursor.execute(
-    "SELECT * FROM students WHERE student_id = %s",
-    (student_id,)
+        "SELECT * FROM students WHERE student_id = %s",
+        (student_id,)
     )
+
     row = cursor.fetchone()
-   
-    if row:
-        return dict(row) 
+
+    cursor.close()
     conn.close()
+
+    return dict(row) if row else None
 
 def delete(student_id):
     conn = get_db_connection()
