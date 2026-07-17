@@ -1,44 +1,48 @@
 from database import get_db_connection
 
-
 def addstudent(data):
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Get the last student_id
-    cursor.execute("""
-    SELECT student_id
-    FROM students
-    ORDER BY CAST(SUBSTRING(student_id FROM 4) AS INTEGER) DESC
-    LIMIT 1
-""")
+    try:
+        # Get the last student_id
+        cursor.execute("""
+            SELECT student_id
+            FROM students
+            ORDER BY CAST(SUBSTRING(student_id FROM 4) AS INTEGER) DESC
+            LIMIT 1
+        """)
 
-    last_student = cursor.fetchone()
+        last_student = cursor.fetchone()
 
-    if last_student:
-        last_id = last_student[0]
-        number = int(last_id.replace("STU", ""))
-        new_student_id = f"STU{number + 1:03d}"
-    else:
-        new_student_id = "STU001"
+        if last_student:
+            last_id = last_student[0]
+            number = int(last_id.replace("STU", ""))
+            new_student_id = f"STU{number + 1:03d}"
+        else:
+            new_student_id = "STU001"
 
+        cursor.execute("""
+            INSERT INTO students (student_id, name, age, grade)
+            VALUES (%s, %s, %s, %s)
+        """, (
+            new_student_id,
+            data["name"],
+            data["age"],
+            data["grade"]
+        ))
 
-    cursor.execute("""
-        INSERT INTO students (student_id, name, age, grade)
-        VALUES (%s, %s, %s, %s)
-    """, (
-        new_student_id,
-        data["name"],
-        data["age"],
-        data["grade"]
-    ))
+        conn.commit()
+        return True
 
-    conn.commit()
-    cursor.close()
-    conn.close()
+    except Exception as e:
+        conn.rollback()
+        print("Add student error:", e)
+        return False
 
-    return True
-
+    finally:
+        cursor.close()
+        conn.close()
 
 def Allstudents():
     conn = get_db_connection()

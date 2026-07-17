@@ -1,5 +1,4 @@
 import os
-print("DATABASE_URL FOUND:", os.environ.get("DATABASE_URL") is not None)
 import psycopg
 from psycopg.rows import dict_row
 
@@ -25,7 +24,9 @@ def get_db_connection():
 
     return conn
 
+
 def users():
+
     conn = get_db_connection()
     cursor = conn.cursor()
 
@@ -36,42 +37,43 @@ def users():
         username TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-
         failed_attempts INTEGER DEFAULT 0,
         locked_until TEXT DEFAULT NULL
     )
     """)
 
     conn.commit()
+    cursor.close()
     conn.close()
 
-    
 
-def students(): 
+def students():
+
     conn = get_db_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS students(
-    student_id SERIAL PRIMARY KEY,
-    name  TEXT NOT NULL,
-    age INTEGER NOT NULL,
-    grade TEXT NOT NULL
+        student_id VARCHAR(10) PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        age INTEGER NOT NULL,
+        grade VARCHAR(50) NOT NULL
     )
-    """) 
+    """)
+
     conn.commit()
-    conn.close()  
-
-
+    cursor.close()
+    conn.close()
 
 
 def init_audit_table():
+
     conn = get_db_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS audit_logs (
-        id SERIAL PRIMARY KEY ,
+        id SERIAL PRIMARY KEY,
         user_id INTEGER,
         action TEXT NOT NULL,
         timestamp TEXT DEFAULT CURRENT_TIMESTAMP
@@ -79,12 +81,12 @@ def init_audit_table():
     """)
 
     conn.commit()
-    conn.close()  
-
-
+    cursor.close()
+    conn.close()
 
 
 def log_action(user_id, action):
+
     conn = get_db_connection()
     cursor = conn.cursor()
 
@@ -94,14 +96,12 @@ def log_action(user_id, action):
     """, (user_id, action))
 
     conn.commit()
-    conn.close()    
-
-
-
-
+    cursor.close()
+    conn.close()
 
 
 if __name__ == "__main__":
+
     users()
     students()
     init_audit_table()
