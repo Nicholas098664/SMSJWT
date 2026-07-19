@@ -5,6 +5,7 @@ from admin_required import admin_required
 from database import get_db_connection, log_action
 
 
+
 student_Tp = Blueprint("student", __name__)
 
 @student_Tp.route("/Allstudents", methods=["GET", "POST"])
@@ -136,17 +137,5 @@ def counter_route(payload):
             "message": str(e)
         }), 500
 
-
-
-@auth_Tp.route("/user-counter", methods=["GET"])
-@token_required
-def user_counter_route(payload):
-
-    count = user_counter()
-
-    return jsonify({
-        "success": True,
-        "totalUsers": count
-    })
 
 
