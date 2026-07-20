@@ -15,8 +15,8 @@ def addstudent(data):
 
         last_student = cursor.fetchone()
 
-        if last_student and last_student[0]:
-            last_id = str(last_student[0]).strip().upper()
+        if last_student and last_student["student_id"]:
+            last_id = str(last_student["student_id"]).strip().upper()
             number = int(last_id.replace("STU", ""))
             new_student_id = f"STU{number + 1:03d}"
 
