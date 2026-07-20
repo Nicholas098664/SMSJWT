@@ -15,10 +15,11 @@ def addstudent(data):
 
         last_student = cursor.fetchone()
 
-        if last_student:
-            last_id = last_student[0]
+        if last_student and last_student["student_id"]:
+            last_id = str(last_student["student_id"]).strip().upper()
             number = int(last_id.replace("STU", ""))
             new_student_id = f"STU{number + 1:03d}"
+
         else:
             new_student_id = "STU001"
 
@@ -37,7 +38,9 @@ def addstudent(data):
 
     except Exception as e:
         conn.rollback()
-        print("Add student error:", e)
+        import traceback
+        traceback.print_exc()
+        print("Add student error:", repr(e))
         return False
 
     finally:
@@ -61,16 +64,14 @@ def getstudent(student_id):
     cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT * FROM students WHERE student_id = %s",
-        (student_id,)
+    "SELECT * FROM students WHERE student_id = %s",
+    (student_id,)
     )
-
     row = cursor.fetchone()
-
-    cursor.close()
+   
+    if row:
+        return dict(row) 
     conn.close()
-
-    return dict(row) if row else None
 
 def delete(student_id):
     conn = get_db_connection()
